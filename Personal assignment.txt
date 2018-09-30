@@ -1,26 +1,185 @@
-        
-						LOGIN FRAME
-		JFrame myframe= new JFrame("Login");//creating login frame
-        JPanel mypanel=new JPanel();
-        JLabel usernamelabel=new JLabel("Username: ");
-        JTextField username=new JTextField ();
-        username.setColumns(20);
-        JLabel passwordlabel=new JLabel("Password: ");
-        passwordlabel.setBounds(59, 159, 89, 20);
-        JPasswordField password=new JPasswordField ();
-        password.setColumns(20);
-        JButton login=new JButton("Login ");
-        JButton exit=new JButton("Exit ");
-        JButton clear=new JButton("Clear ");
-        mypanel.add(usernamelabel);
-        mypanel.add(username);
-        mypanel.add(passwordlabel);
-        mypanel.add(password);
-        mypanel.add(login);
-        mypanel.add(exit);
-        mypanel.add(clear);
-        myframe.add(mypanel);
-        myframe.setBounds(200,300,1000,800);//set frame location and size
-        myframe.setResizable(true);//set action for resize button
-        myframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        myframe.setVisible(true);
+     LOGIN
+
+public class login extends JFrame {
+
+    Connection conn = new connection().connect();
+    
+private final JLabel usernamelbl;
+private final JLabel passwordlbl;       
+private final JTextField username;
+private final JPasswordField passwordField;
+private final JButton exit;
+private final JButton enter;
+
+public login() throws SQLException{
+    super("LOGIN");    
+    setLayout(new FlowLayout());
+
+usernamelbl = new JLabel("USERNAME");
+add (usernamelbl);
+
+username = new JTextField(21);
+username.setToolTipText("Enter Password");
+add(username);
+
+passwordlbl = new JLabel("PASSWORD");
+add (passwordlbl);
+
+passwordField = new JPasswordField(21);
+passwordField.setToolTipText("Enter Password");
+add(passwordField);
+
+enter = new JButton("ENTER");
+add(enter);
+
+exit = new JButton("EXIT");
+add(exit);
+
+}}
+
+
+     HOME
+class home extends JFrame implements ActionListener {
+private final JButton logout;
+private final JButton adduser;
+
+
+public home(){
+    super("HOME");    
+    setLayout(new FlowLayout());
+    
+adduser = new JButton("ADDUSER");
+adduser.addActionListener(this);
+
+
+logout = new JButton("LOGOUT");
+adduser.addActionListener(this);
+add(adduser);
+add (logout);
+}
+
+    @Override
+    public void actionPerformed(ActionEvent ae) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+}
+
+
+
+    FORMS
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JRadioButton;
+import javax.swing.JSpinner;
+import javax.swing.JTextField;
+
+/**
+ *
+ * @author KID_UNTAMED
+ */
+public class forms extends JFrame implements ActionListener{
+    
+private final JLabel fnamelbl;
+private final JLabel lnamelbl; 
+private final JLabel telephonelbl;
+private final JLabel doblbl;
+private final JLabel genderlbl;
+private final JRadioButton male;
+private final JRadioButton female;
+private final JTextField fname;
+private final JTextField lname;
+private final JSpinner dob;
+private final JTextField telephone;
+private final JButton clear;
+private final JButton saveuser;
+
+
+public forms(){
+    super("ADD NEW USER");    
+    setLayout(new GridLayout());
+
+fnamelbl = new JLabel("First Name");
+add (fnamelbl);
+fname = new JTextField(21);
+fname.setToolTipText("Enter First name");
+add(fname);
+
+lnamelbl = new JLabel("Last Name");
+add (lnamelbl);
+lname = new JTextField(21);
+lname.setToolTipText("Enter Last name ");
+add(lname);
+
+telephonelbl = new JLabel("Telephone");
+add (telephonelbl);
+telephone = new JTextField(21);
+telephone.setToolTipText("Enter Telephone ");
+add(telephone);
+
+doblbl = new JLabel("Date of Birth");
+add (doblbl);
+dob = new JSpinner();
+dob.setToolTipText("Enter Date of Birth ");
+add(dob);
+
+genderlbl = new JLabel("Gender");
+add (genderlbl);
+male =new JRadioButton("Male");
+female =new JRadioButton("Female");
+add(female);
+add(male);
+
+
+saveuser = new JButton("SAVE USER");
+saveuser.addActionListener(this);
+
+
+clear = new JButton("CLEAR");
+add(saveuser);
+add (clear);
+
+}
+
+    @Override
+    public void actionPerformed(ActionEvent ae) {
+        if()
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+}
+
+
+
+    CONNECTION
+import com.mysql.jdbc.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+/**
+ *
+ * @author KID_UNTAMED
+ */
+public class connection {
+    private Connection connection;
+    public Connection connect(){
+       try {
+           Class.forName("com.mysql.jdbc.Driver");
+           System.out.println("Connection Success");
+       }
+       catch(ClassNotFoundException cnfe){
+            System.out.println("Connection failed"+cnfe);
+       }
+       String url ="jdbc:mysql://localhost:3306/login?zeroDateTimeBehavior=convertToNull";
+       try{
+           connection = (Connection) DriverManager.getConnection(url,"root","");
+           System.out.println("Database Connected");
+       }
+       catch(SQLException se){
+         System.out.println("No Database Connected");
+       }
+       return connection;
+    }
+}
