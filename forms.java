@@ -5,14 +5,24 @@
  */
 package registerdesk;
 
+import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.GridLayout;
+import java.awt.HeadlessException;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
-import javax.swing.JSpinner;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 /**
@@ -20,7 +30,16 @@ import javax.swing.JTextField;
  * @author KID_UNTAMED
  */
 public class forms extends JFrame {
-    
+
+    private static void addActionListener(ActionListener actionListener) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+String gender;
+double age;
+
+private JScrollPane scpane;
+private JLabel titlelbl;
+private JLabel title;
 private final JLabel fnamelbl;
 private final JLabel lnamelbl; 
 private final JLabel telephonelbl;
@@ -31,16 +50,18 @@ private final JRadioButton female;
 private final ButtonGroup group;
 private final JTextField fname;
 private final JTextField lname;
-private final JSpinner dob;
+private final SimpleDateFormat dob;
+com.toedter.calendar.JDateChooser date;
 private final JTextField telephone;
 private final JButton clear;
-private final JButton saveuser;
+private final JButton save;
 private Font bf;
+
 
 
 public forms(){
     super("ADD NEW USER");    
-    setLayout(new GridLayout());
+    setLayout(new FlowLayout());
 
 fnamelbl = new JLabel("First Name");
 add (fnamelbl);
@@ -62,9 +83,10 @@ add(telephone);
 
 doblbl = new JLabel("Date of Birth");
 add (doblbl);
-dob = new JSpinner();
-dob.setToolTipText("Enter Date of Birth ");
-add(dob);
+dob=new SimpleDateFormat("d MMM y");
+date= new com.toedter.calendar.JDateChooser();
+date.setToolTipText("Enter Date of Birth ");
+add(date);
 
 genderlbl = new JLabel("Gender");
 add (genderlbl);
@@ -78,15 +100,54 @@ group.add(female);
 group.add(male);
 
 
-saveuser = new JButton("SAVE USER");
-add(saveuser);
+save = new JButton("SAVE");
+add(save);
 clear = new JButton("CLEAR");
-add(saveuser);
 add (clear);
+clear.addActionListener(new al());
+save.addActionListener((ActionEvent ae) -> {
+    try
+    {
+        Class.forName("com.mysql.jdbc.Driver");
+        try (Connection connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/login_form","root","")) {
+            Statement pst = connect.createStatement();
+            String valu1=fname.getText();
+            String valu2=lname.getText();
+            Double valu3=Double.parseDouble(telephone.getText());
+            if(male.isSelected()){
+                gender="Male";
+            }
+            if(female.isSelected()){
+                gender="Female";
+            }
+            age=date.getDate().getYear();
+            age=2018-age-1900;
+            String valu4=dob.format(date.getDate());
+            String valu5=(gender);
+            Double valu6=(age);
+            String rs="INSERT INTO members VALUES("+"\""+ valu1 +"\""+","+"\""+valu2+"\""+","+"\""+valu3+"\""+","+"\""+valu4+"\""+","+"\""+valu5+"\""+","+"\""+valu6+"\""+")";
+            pst.executeUpdate(rs);
+            JOptionPane.showMessageDialog(null, "INSERTED SUCCESSFULLY");
+        }
+    }
+    catch (HeadlessException | ClassNotFoundException | SQLException e){JOptionPane.showMessageDialog(null, e);}
+    })
+        ;
+}
+    public class al implements ActionListener
+    {
+     @Override
+     public void actionPerformed(ActionEvent e)
+     {
+         String s1="";
+         String s2="";
+         String s3="";
+         String s4="";
+         
+         fname.setText(s1);
+         lname.setText(s2);
+         telephone.setText(s3);
+     }
+ }
+}
 
-        forms log = new forms();
-        log.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        log.setSize(1000, 800);
-        log.setVisible(true);
-}
-}

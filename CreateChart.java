@@ -69,9 +69,9 @@ public class CreateChart extends JFrame {
                 
             }
             
-            rs.setValue("Male",male);
-            rs.setValue("Female",female);
-            return rs;
+            rsl.setValue("Male",male);
+            rsl.setValue("Female",female);
+            return rsl;
     }
         private JFreeChart createChart(PieDataset dataset,String title)
         {
