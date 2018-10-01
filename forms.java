@@ -7,13 +7,6 @@ package registerdesk;
 
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -27,10 +20,6 @@ import javax.swing.JTextField;
  * @author KID_UNTAMED
  */
 public class forms extends JFrame {
-
-    private static void addActionListener(ActionListener actionListener) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
     
 private final JLabel fnamelbl;
 private final JLabel lnamelbl; 
@@ -95,5 +84,9 @@ clear = new JButton("CLEAR");
 add(saveuser);
 add (clear);
 
+        forms log = new forms();
+        log.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        log.setSize(1000, 800);
+        log.setVisible(true);
 }
 }

@@ -105,7 +105,7 @@ public class forms extends JFrame {
     private static void addActionListener(ActionListener actionListener) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+String gender;    
 private final JLabel fnamelbl;
 private final JLabel lnamelbl; 
 private final JLabel telephonelbl;
@@ -116,7 +116,7 @@ private final JRadioButton female;
 private final ButtonGroup group;
 private final JTextField fname;
 private final JTextField lname;
-private final JSpinner dob;
+private final JTextField dob;
 private final JTextField telephone;
 private final JButton clear;
 private final JButton saveuser;
@@ -125,7 +125,7 @@ private Font bf;
 
 public forms(){
     super("ADD NEW USER");    
-    setLayout(new GridLayout());
+    setLayout(new FlowLayout());
 
 fnamelbl = new JLabel("First Name");
 add (fnamelbl);
@@ -147,7 +147,7 @@ add(telephone);
 
 doblbl = new JLabel("Date of Birth");
 add (doblbl);
-dob = new JSpinner();
+dob = new JTextField(21);
 dob.setToolTipText("Enter Date of Birth ");
 add(dob);
 
@@ -169,7 +169,31 @@ clear = new JButton("CLEAR");
 add(saveuser);
 add (clear);
 
-}}
+saveuser.addActionListener((ActionEvent ae) -> {
+    try
+    {
+        Class.forName("com.mysql.jdbc.Driver");
+        Connection connect=DriverManager.getConnection("jdbc:mysql://localhost:3306/login_form","root","");
+        String query=("insert into members (First_name,Last_name,Telephone,Date_of_Birth,Gender) values(?,?,?,?,?");
+        PreparedStatement pst = connect.prepareStatement(query);
+        pst.setString(1,fname.getText());
+        pst.setString(2,lname.getText());
+        pst.setString(3,telephone.getText());
+        if(male.isSelected()){
+            gender="Male";
+        }
+        if(female.isSelected()){
+            gender="Female";
+        }
+        pst.setString(4,dob.getText());
+        pst.setString(5, gender);
+        JOptionPane.showMessageDialog(null, "INSERTED SUCCESSFULLY");
+    }
+    catch (HeadlessException | ClassNotFoundException | SQLException e){JOptionPane.showMessageDialog(null, e);}
+    
+ 
+    });}
+}
 
 
     CONNECTION
